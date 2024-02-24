@@ -473,6 +473,9 @@ span{
     .about-img img {
         width: 90%;
     }
+    .portfolio-box img {
+        width:86vw;
+    }
     .footer{
         flex-direction: column-reverse;
     }
