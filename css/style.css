@@ -453,7 +453,7 @@ span{
  @media (max-width: 617px) {
     .portfolio-container{
         grid-template-columns: 1fr;
-        width: 90%;
+        width: 90vw;
     }
  }
 
@@ -472,7 +472,7 @@ span{
         width: 90vw;
     }
     .about-img img {
-        width: 90%;
+        width: 70vw;
     }
     .portfolio-box img {
         width:86vw;
