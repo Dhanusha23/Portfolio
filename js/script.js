@@ -1,3 +1,4 @@
+
 /*=========== scroll seslections active  link ==========*/
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
@@ -97,4 +98,5 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
 
