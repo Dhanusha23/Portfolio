@@ -1,230 +1,1055 @@
-
-<!Doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title>My Portfolio</title>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dhanusha D — Python Django Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@0,400;1,400;1,500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════ */
+:root{
+  --bg:#eef2ff;
+  --bg2:#e8edff;
+  --text:#0c0b1a;
+  --text2:#3b3760;
+  --muted:#8e8aac;
+  --g1:#6c47ff;
+  --g2:#c084fc;
+  --g3:#f472b6;
+  --g4:#38bdf8;
+  --g5:#4ade80;
+  --glass:rgba(255,255,255,0.6);
+  --glass2:rgba(255,255,255,0.4);
+  --glass3:rgba(255,255,255,0.2);
+  --gb:rgba(255,255,255,0.75);
+  --gb2:rgba(255,255,255,0.45);
+  --blur:blur(28px) saturate(180%);
+  --blur2:blur(16px) saturate(150%);
+  --sh:0 8px 40px rgba(108,71,255,0.13);
+  --sh2:0 20px 60px rgba(108,71,255,0.2);
+  --sh3:0 40px 100px rgba(108,71,255,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Bricolage Grotesque',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
 
-    <!-- box icons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+/* ═══════════════════════════════════════
+   ANIMATED BACKGROUND
+═══════════════════════════════════════ */
+.bg-scene{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 5% 15%,rgba(108,71,255,0.14),transparent 65%),
+    radial-gradient(ellipse 55% 45% at 95% 5%,rgba(56,189,248,0.11),transparent 65%),
+    radial-gradient(ellipse 60% 50% at 55% 95%,rgba(244,114,182,0.1),transparent 65%),
+    radial-gradient(ellipse 45% 40% at 85% 55%,rgba(192,132,252,0.1),transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 75%,rgba(74,222,128,0.07),transparent 65%);
+  animation:bgshift 16s ease-in-out infinite alternate;
+}
+@keyframes bgshift{
+  0%{opacity:1;}
+  50%{opacity:0.85;}
+  100%{opacity:1;}
+}
+.orb{position:fixed;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;animation:orbdrift var(--t,12s) ease-in-out infinite alternate;}
+.o1{width:480px;height:480px;background:rgba(108,71,255,0.11);top:-120px;left:-120px;--t:13s;}
+.o2{width:380px;height:380px;background:rgba(56,189,248,0.09);top:25%;right:-80px;--t:17s;}
+.o3{width:320px;height:320px;background:rgba(244,114,182,0.09);bottom:5%;left:10%;--t:11s;}
+.o4{width:280px;height:280px;background:rgba(74,222,128,0.07);bottom:15%;right:10%;--t:15s;}
+@keyframes orbdrift{0%{transform:translate(0,0) scale(1);}100%{transform:translate(25px,15px) scale(1.06);}}
 
-    <!-- custom css-->
-    <link rel="stylesheet" href="css/style.css">
+/* NOISE TEXTURE */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.5;
+}
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+#cur{position:fixed;width:10px;height:10px;background:var(--g1);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;mix-blend-mode:multiply;}
+#curR{position:fixed;width:34px;height:34px;border:1.5px solid rgba(108,71,255,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+
+/* ═══════════════════════════════════════
+   NAV — floating pill
+═══════════════════════════════════════ */
+nav{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:200;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  padding:0.8rem 1.6rem;
+  background:var(--glass);
+  backdrop-filter:var(--blur);
+  -webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);
+  border-radius:100px;
+  box-shadow:var(--sh);
+  width:min(1080px, calc(100% - 3rem));
+  animation:navIn .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(-18px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.n-logo{
+  font-family:'Lora',serif;font-style:italic;font-size:1.2rem;font-weight:500;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-decoration:none;white-space:nowrap;
+}
+.n-links{display:flex;gap:0.2rem;list-style:none;}
+.n-links a{
+  color:var(--text2);text-decoration:none;font-size:0.77rem;font-weight:500;
+  letter-spacing:0.04em;padding:0.38rem 0.85rem;border-radius:100px;transition:all .2s;
+}
+.n-links a:hover{background:rgba(108,71,255,0.1);color:var(--g1);}
+.n-cta{
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 100%);
+  color:#fff;padding:0.58rem 1.4rem;border-radius:100px;
+  font-size:0.77rem;font-weight:700;letter-spacing:0.06em;
+  text-decoration:none;white-space:nowrap;
+  box-shadow:0 4px 18px rgba(108,71,255,0.38);
+  transition:all .3s;
+}
+.n-cta:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(108,71,255,0.55);}
+
+/* ═══════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════ */
+section{padding:6rem 3rem;position:relative;z-index:2;}
+.s-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.68rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--g1);margin-bottom:0.7rem;
+}
+.s-label::before{content:'';width:22px;height:2px;background:linear-gradient(90deg,var(--g1),var(--g2));border-radius:2px;}
+.s-title{
+  font-size:clamp(2rem,3.8vw,3.4rem);font-weight:800;
+  line-height:1.08;letter-spacing:-0.03em;margin-bottom:3rem;
+}
+.s-title em{
+  font-family:'Lora',serif;font-style:italic;font-weight:400;font-size:1.08em;
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ═══════════════════════════════════════
+   GLASS UTILITY
+═══════════════════════════════════════ */
+.gc{
+  background:var(--glass);
+  backdrop-filter:var(--blur);
+  -webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);
+  border-radius:24px;
+  box-shadow:var(--sh);
+}
+.gc2{
+  background:var(--glass2);
+  backdrop-filter:var(--blur2);
+  -webkit-backdrop-filter:var(--blur2);
+  border:1px solid var(--gb2);
+  border-radius:18px;
+  box-shadow:0 4px 20px rgba(108,71,255,0.08);
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1.1fr 0.9fr;
+  align-items:center;gap:3rem;
+  padding:9rem 3rem 5rem;
+}
+.hero-l{animation:hIn 1s cubic-bezier(.16,1,.3,1) both;}
+@keyframes hIn{from{opacity:0;transform:translateY(36px);}to{opacity:1;transform:none;}}
+
+.hero-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  color:#16a34a;
+  background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.28);
+  padding:6px 14px;border-radius:100px;margin-bottom:1.8rem;
+}
+.chip-pulse{width:7px;height:7px;background:var(--g5);border-radius:50%;animation:cpulse 2s infinite;}
+@keyframes cpulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,0.5);}
+  50%{opacity:.7;box-shadow:0 0 0 7px rgba(74,222,128,0);}
+}
+
+.hero h1{
+  font-size:clamp(2.8rem,5.5vw,5.8rem);font-weight:800;
+  line-height:1.0;letter-spacing:-0.04em;margin-bottom:1.2rem;
+}
+.hero h1 .italic-name{
+  font-family:'Lora',serif;font-style:italic;font-weight:400;
+  font-size:1.05em;display:block;
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.05;
+}
+.hero h1 .role-line{
+  display:block;font-size:0.42em;font-weight:500;
+  color:var(--text2);letter-spacing:-0.01em;margin-top:0.4rem;
+}
+
+.hero-copy{font-size:1.02rem;color:var(--muted);line-height:1.78;max-width:450px;margin-bottom:2.2rem;}
+.hero-copy strong{color:var(--text);font-weight:700;}
+
+.hero-btns{display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-grad{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:#fff;padding:0.95rem 2rem;border-radius:100px;
+  font-size:0.87rem;font-weight:700;letter-spacing:0.04em;
+  text-decoration:none;border:none;cursor:none;
+  box-shadow:0 8px 32px rgba(108,71,255,0.4);
+  transition:all .3s;
+}
+.btn-grad:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 44px rgba(108,71,255,0.55);}
+.btn-glass{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--glass);
+  backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);
+  color:var(--text);padding:0.95rem 2rem;border-radius:100px;
+  font-size:0.87rem;font-weight:600;letter-spacing:0.04em;
+  text-decoration:none;border:1px solid var(--gb2);
+  transition:all .3s;cursor:none;
+}
+.btn-glass:hover{border-color:rgba(108,71,255,0.4);color:var(--g1);background:rgba(108,71,255,0.07);}
+
+.hero-mini-stats{display:flex;gap:2rem;flex-wrap:wrap;}
+.mini-stat .mn{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.mini-stat .ml{font-size:0.72rem;color:var(--muted);font-weight:500;margin-top:2px;}
+
+/* HERO RIGHT */
+.hero-r{
+  position:relative;display:flex;justify-content:center;align-items:center;
+  animation:hRIn 1s .15s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes hRIn{from{opacity:0;transform:translateX(36px);}to{opacity:1;transform:none;}}
+.photo-wrap{position:relative;width:420px;height:520px;}
+.photo-frame{
+  width:100%;height:100%;border-radius:28px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(108,71,255,0.07),rgba(192,132,252,0.07));
+  border:1px solid var(--gb);
+  box-shadow:var(--sh3);
+  display:flex;align-items:center;justify-content:center;
+}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-ph{display:flex;flex-direction:column;align-items:center;gap:10px;padding:2rem;}
+.photo-ph-av{width:90px;height:90px;border-radius:50%;background:rgba(108,71,255,0.08);border:2px dashed rgba(108,71,255,0.22);display:flex;align-items:center;justify-content:center;font-size:2.2rem;}
+.photo-ph-t{font-size:0.72rem;color:var(--muted);text-align:center;line-height:1.5;}
+.photo-ph-h{font-size:0.65rem;color:var(--g1);border:1px dashed rgba(108,71,255,0.22);padding:3px 12px;border-radius:100px;}
+
+/* floating decorations */
+.fc{
+  position:absolute;
+  background:var(--glass);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);border-radius:16px;
+  box-shadow:var(--sh);
+  padding:12px 16px;
+}
+.fc1{bottom:-18px;left:-28px;display:flex;align-items:center;gap:10px;animation:fcf 3.5s ease-in-out infinite alternate;}
+.fc2{top:-18px;right:-18px;animation:fcf 4s 1s ease-in-out infinite alternate;}
+.fc3{top:42%;right:-38px;animation:fcf 3s .5s ease-in-out infinite alternate;}
+@keyframes fcf{0%{transform:translateY(0);}100%{transform:translateY(-9px);}}
+.fc-icon{font-size:1.3rem;}
+.fc-t{font-size:0.78rem;font-weight:700;color:var(--text);}
+.fc-s{font-size:0.62rem;color:var(--muted);margin-top:1px;}
+.fc2-n{font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;text-align:center;}
+.fc2-l{font-size:0.62rem;color:var(--muted);text-align:center;margin-top:2px;}
+.fc3-inner{display:flex;align-items:center;gap:7px;}
+.fc3-dot{width:7px;height:7px;background:var(--g5);border-radius:50%;animation:cpulse 2s infinite;}
+.fc3-t{font-size:0.7rem;font-weight:700;color:var(--text);}
+
+/* code snippet card (hero) */
+.hero-code{
+  position:absolute;bottom:-24px;right:-24px;width:240px;
+  background:rgba(12,11,26,0.88);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  animation:fcf 4.5s 1.5s ease-in-out infinite alternate;
+}
+.hc-bar{display:flex;gap:5px;margin-bottom:10px;}
+.hc-d{width:10px;height:10px;border-radius:50%;}
+.hc-body{font-family:'DM Mono',monospace;font-size:0.7rem;line-height:1.8;color:rgba(255,255,255,0.55);}
+.hc-body .hk{color:#c084fc;}
+.hc-body .hv{color:#4ade80;}
+.hc-body .hs{color:#f472b6;}
+.hc-blink{display:inline-block;width:7px;height:13px;background:#6c47ff;animation:blink .8s infinite;vertical-align:middle;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* ═══════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════ */
+.mq-wrap{
+  position:relative;z-index:2;padding:1.4rem 0;overflow:hidden;
+}
+.mq-wrap::before,.mq-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:140px;z-index:1;pointer-events:none;
+}
+.mq-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.mq-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.mq-track{display:flex;animation:mq 28s linear infinite;width:max-content;}
+.mq-track:hover{animation-play-state:paused;}
+.mq-item{display:flex;align-items:center;gap:1.2rem;padding:0 1.2rem;flex-shrink:0;}
+.mq-chip{
+  font-size:0.75rem;font-weight:600;letter-spacing:0.04em;white-space:nowrap;
+  padding:8px 18px;border-radius:100px;
+  background:var(--glass);border:1px solid var(--gb2);
+  color:var(--text2);backdrop-filter:var(--blur2);
+  transition:all .2s;
+}
+.mq-chip:hover{background:rgba(108,71,255,0.1);color:var(--g1);border-color:rgba(108,71,255,0.25);}
+.mq-sep{width:4px;height:4px;border-radius:50%;background:var(--g2);opacity:0.5;flex-shrink:0;}
+@keyframes mq{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ═══════════════════════════════════════
+   WHY HIRE ME
+═══════════════════════════════════════ */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.why-card{
+  padding:1.8rem;
+  background:var(--glass);
+  backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);
+  border:1px solid var(--gb);border-radius:22px;
+  box-shadow:var(--sh);
+  transition:transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.why-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.why-card:hover{transform:translateY(-6px);box-shadow:var(--sh2);}
+.why-card:hover::before{transform:scaleX(1);}
+.why-star{font-size:1.6rem;margin-bottom:0.8rem;}
+.why-card p{font-size:0.87rem;color:var(--text2);line-height:1.65;}
+
+/* ═══════════════════════════════════════
+   VIBE CODING
+═══════════════════════════════════════ */
+.vibe-wrap{
+  background:var(--glass);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);border-radius:32px;
+  padding:3.5rem;box-shadow:var(--sh2);
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+.vibe-glow{
+  position:absolute;width:300px;height:300px;border-radius:50%;
+  filter:blur(80px);pointer-events:none;
+}
+.vg1{background:rgba(108,71,255,0.1);top:-80px;left:-80px;}
+.vg2{background:rgba(244,114,182,0.08);bottom:-60px;right:-60px;}
+
+.vibe-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  background:linear-gradient(135deg,rgba(108,71,255,0.1),rgba(192,132,252,0.08));
+  border:1px solid rgba(108,71,255,0.2);color:var(--g1);
+  padding:5px 14px;border-radius:100px;margin-bottom:1.4rem;
+}
+.vibe-tag-icon{font-size:0.95rem;}
+.vibe-h{
+  font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;
+  line-height:1.08;letter-spacing:-0.03em;margin-bottom:1rem;
+}
+.vibe-h span{
+  font-family:'Lora',serif;font-style:italic;font-weight:400;font-size:1.05em;
+  background:linear-gradient(135deg,var(--g1),var(--g3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.vibe-p{font-size:0.93rem;color:var(--text2);line-height:1.78;margin-bottom:1.4rem;}
+.vibe-pills{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.vpill{
+  font-size:0.7rem;font-weight:700;padding:5px 12px;border-radius:100px;border:1px solid;
+}
+.vp1{background:rgba(108,71,255,0.08);border-color:rgba(108,71,255,0.22);color:var(--g1);}
+.vp2{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.22);color:#0284c7;}
+.vp3{background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.22);color:#db2777;}
+.vp4{background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.22);color:#16a34a;}
+
+/* terminal */
+.terminal{
+  background:rgba(10,9,20,0.93);
+  border-radius:20px;border:1px solid rgba(255,255,255,0.07);
+  overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.28);
+}
+.term-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:11px 16px;
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.td{width:11px;height:11px;border-radius:50%;}
+.td1{background:#ff5f57;}.td2{background:#ffbd2e;}.td3{background:#28c840;}
+.term-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(255,255,255,0.25);margin-left:auto;}
+.term-body{padding:1.4rem;font-family:'DM Mono',monospace;font-size:0.78rem;line-height:2;}
+.tl{display:flex;gap:0.4rem;flex-wrap:wrap;align-items:baseline;}
+.tp{color:#9b6dff;}.tc{color:#c4a3ff;}
+.to{color:#4ade80;padding-left:1rem;display:block;}
+.to2{color:#38bdf8;padding-left:1rem;display:block;}
+.to3{color:#f472b6;padding-left:1rem;display:block;}
+.tcmt{color:rgba(255,255,255,0.2);padding-left:1rem;display:block;font-style:italic;}
+.tcur{display:inline-block;width:7px;height:13px;background:#6c47ff;animation:blink .8s infinite;vertical-align:middle;}
+
+/* ═══════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════ */
+.skills-bg{background:rgba(255,255,255,0.28);}
+.skills-mosaic{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(108,71,255,0.08);
+  border-radius:24px;overflow:hidden;
+  border:1px solid rgba(108,71,255,0.08);
+}
+.sk-tile{
+  background:var(--glass);
+  backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);
+  padding:2rem;transition:background .3s,transform .3s;
+  position:relative;overflow:hidden;
+}
+.sk-tile:hover{background:rgba(255,255,255,0.75);}
+.sk-tile::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--g1),var(--g2));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.sk-tile:hover::after{transform:scaleX(1);}
+.sk-icon{font-size:1.8rem;margin-bottom:0.7rem;}
+.sk-name{font-size:0.8rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;color:var(--text);}
+.sk-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.sktag{
+  font-size:0.67rem;font-weight:600;padding:3px 10px;border-radius:100px;
+  background:rgba(108,71,255,0.07);border:1px solid rgba(108,71,255,0.15);color:var(--g1);
+}
+
+/* ═══════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════ */
+.proj-list{display:flex;flex-direction:column;gap:1.2rem;}
+.proj-card{
+  background:var(--glass);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);border-radius:24px;
+  padding:2.2rem;box-shadow:var(--sh);
+  display:grid;grid-template-columns:220px 1fr auto;gap:2rem;align-items:center;
+  transition:transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.proj-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--g1),var(--g2),var(--g3),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.proj-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);}
+.proj-card:hover::before{opacity:1;}
+.proj-thumb{
+  width:220px;height:140px;border-radius:14px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(108,71,255,0.07),rgba(192,132,252,0.07));
+  border:1px solid var(--gb2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  position:relative;z-index:1;
+  transition:width 0.45s cubic-bezier(.16,1,.3,1),
+             height 0.45s cubic-bezier(.16,1,.3,1),
+             box-shadow 0.45s ease;
+}
+.proj-thumb:hover{
+  width:380px;
+  height:240px;
+  box-shadow:0 28px 70px rgba(108,71,255,0.3);
+  z-index:99;
+}
+.proj-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  border-radius:14px;
+}
+
+
+
+.pph{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.pph-e{font-size:2rem;opacity:0.3;}
+.pph-t{font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+.pph-s{font-size:0.58rem;color:var(--g1);border:1px dashed rgba(108,71,255,0.2);padding:2px 8px;border-radius:100px;}
+.proj-num{font-size:0.62rem;font-weight:700;letter-spacing:0.18em;color:var(--g1);text-transform:uppercase;margin-bottom:0.35rem;}
+.proj-name{font-size:1.28rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.4rem;color:var(--text);}
+.proj-desc{font-size:0.84rem;color:var(--muted);line-height:1.65;margin-bottom:0.9rem;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.ptag{font-size:0.62rem;font-weight:600;padding:3px 9px;border-radius:100px;background:rgba(108,71,255,0.07);border:1px solid rgba(108,71,255,0.15);color:var(--g1);}
+.ptag-v{background:rgba(56,189,248,0.07);border-color:rgba(56,189,248,0.2);color:#0284c7;}
+.proj-acts{display:flex;flex-direction:column;gap:7px;align-items:flex-end;flex-shrink:0;}
+.live-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.62rem;font-weight:700;
+  color:#16a34a;background:rgba(74,222,128,0.1);
+  border:1px solid rgba(74,222,128,0.28);padding:4px 12px;border-radius:100px;
+}
+.live-pill::before{content:'';width:5px;height:5px;background:var(--g5);border-radius:50%;animation:cpulse 2s infinite;}
+.plink{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.73rem;font-weight:700;letter-spacing:0.03em;
+  text-decoration:none;color:var(--text);
+  padding:8px 16px;border-radius:100px;
+  background:var(--glass2);border:1px solid var(--gb2);
+  transition:all .2s;white-space:nowrap;
+}
+.plink:hover{background:rgba(108,71,255,0.09);border-color:rgba(108,71,255,0.3);color:var(--g1);}
+
+/* ═══════════════════════════════════════
+   EXPERIENCE
+═══════════════════════════════════════ */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.exp-card{
+  padding:2.2rem;
+  background:var(--glass);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);border-radius:24px;
+  box-shadow:var(--sh);transition:transform .3s;
+  position:relative;overflow:hidden;
+}
+.exp-card:hover{transform:translateY(-5px);}
+.exp-glow{
+  position:absolute;top:-50px;right:-50px;
+  width:130px;height:130px;border-radius:50%;
+  filter:blur(40px);
+}
+.eg1{background:rgba(108,71,255,0.14);}
+.eg2{background:rgba(244,114,182,0.12);}
+.exp-period{
+  display:inline-block;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--g1);
+  background:rgba(108,71,255,0.08);border:1px solid rgba(108,71,255,0.16);
+  padding:4px 12px;border-radius:100px;margin-bottom:0.9rem;
+}
+.exp-title{font-size:1rem;font-weight:800;margin-bottom:2px;color:var(--text);}
+.exp-co{font-size:0.8rem;color:var(--g1);font-weight:600;margin-bottom:1.1rem;}
+.exp-pts{list-style:none;}
+.exp-pts li{
+  font-size:0.82rem;color:var(--text2);
+  padding:3px 0 3px 17px;position:relative;line-height:1.5;
+}
+.exp-pts li::before{content:'→';position:absolute;left:0;color:var(--g1);font-size:0.68rem;top:5px;}
+
+/* ═══════════════════════════════════════
+   CERT
+═══════════════════════════════════════ */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.cert-card{
+  padding:1.8rem;
+  background:var(--glass);
+  backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);
+  border:1px solid var(--gb);border-radius:22px;
+  box-shadow:var(--sh);transition:transform .3s;
+}
+.cert-card:hover{transform:translateY(-4px);}
+.cert-ic{
+  width:46px;height:46px;border-radius:13px;
+  background:linear-gradient(135deg,rgba(108,71,255,0.12),rgba(192,132,252,0.07));
+  border:1px solid rgba(108,71,255,0.16);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:0.9rem;
+}
+.cert-card h3{font-size:0.88rem;font-weight:800;margin-bottom:3px;line-height:1.3;color:var(--text);}
+.cert-card p{font-size:0.72rem;color:var(--muted);}
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+.contact-wrap{
+  background:var(--glass);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--gb);border-radius:32px;
+  padding:4rem;box-shadow:var(--sh3);
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+.ctg1{position:absolute;top:-80px;left:-80px;width:240px;height:240px;border-radius:50%;filter:blur(60px);background:rgba(108,71,255,0.12);}
+.ctg2{position:absolute;bottom:-70px;right:-70px;width:220px;height:220px;border-radius:50%;filter:blur(55px);background:rgba(244,114,182,0.1);}
+.ct-big{
+  font-size:clamp(1.9rem,3.5vw,3.4rem);font-weight:800;
+  line-height:1.08;letter-spacing:-0.03em;margin-bottom:0.9rem;
+}
+.ct-big em{
+  font-family:'Lora',serif;font-style:italic;font-weight:400;font-size:1.05em;
+  background:linear-gradient(135deg,var(--g1),var(--g3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ct-sub{font-size:0.93rem;color:var(--muted);line-height:1.75;margin-bottom:2rem;}
+.ct-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:#fff;padding:1.1rem 2.4rem;border-radius:100px;
+  font-size:0.9rem;font-weight:700;letter-spacing:0.05em;
+  text-decoration:none;
+  box-shadow:0 10px 38px rgba(108,71,255,0.42);
+  transition:all .3s;
+}
+.ct-cta:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(108,71,255,0.58);}
+.ct-links{display:flex;flex-direction:column;gap:0.75rem;}
+.ctlink{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,0.52);
+  backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);
+  border:1px solid var(--gb2);border-radius:14px;
+  padding:1rem 1.2rem;text-decoration:none;color:var(--text);
+  transition:all .22s;
+}
+.ctlink:hover{background:rgba(108,71,255,0.07);border-color:rgba(108,71,255,0.28);transform:translateX(5px);}
+.ctl-l{display:flex;align-items:center;gap:12px;}
+.ctl-icon{font-size:1.1rem;}
+.ctl-name{font-size:0.82rem;font-weight:700;color:var(--text);}
+.ctl-val{font-size:0.67rem;color:var(--muted);margin-top:1px;}
+.ctl-arr{color:var(--muted);transition:transform .2s,color .2s;}
+.ctlink:hover .ctl-arr{transform:translate(3px,-3px);color:var(--g1);}
+
+footer{
+  padding:2rem 3rem;border-top:1px solid rgba(108,71,255,0.08);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:0.73rem;color:var(--muted);position:relative;z-index:2;
+}
+.f-logo{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--g1);}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.rv.on{opacity:1;transform:none;}
+.rv-r{opacity:0;transform:translateX(22px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.rv-r.on{opacity:1;transform:none;}
+.rv-l{opacity:0;transform:translateX(-22px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.rv-l.on{opacity:1;transform:none;}
+
+/* stagger delays */
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}
+.d4{transition-delay:.2s;}.d5{transition-delay:.25s;}.d6{transition-delay:.3s;}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:980px){
+  nav{width:calc(100% - 2rem);top:10px;}
+  .n-links{display:none;}
+
+
+  .hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;}
+  .hero-r{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:2rem;
+  }
+  .photo-wrap{
+    width:280px;
+    height:360px;
+  }
+
+
+  section{padding:4.5rem 1.5rem;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .vibe-wrap{grid-template-columns:1fr;gap:2rem;}
+  .skills-mosaic{grid-template-columns:1fr 1fr;}
+  .proj-card{grid-template-columns:1fr;gap:1.2rem;}
+  .proj-thumb{width:100%;height:100%;}
+  .proj-acts{flex-direction:row;align-items:center;}
+  .exp-grid{grid-template-columns:1fr;}
+  .cert-grid{grid-template-columns:1fr;}
+  .contact-wrap{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem;}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;}
+}
+</style>
 </head>
 <body>
 
-    <!--header design-->
-    <header class="header">
-        <a href="#" class="logo">Portfolio</a>
+<div class="bg-scene"></div>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div class="orb o3"></div><div class="orb o4"></div>
+<div id="cur"></div><div id="curR"></div>
 
-        <i class='bx bx-menu' id="menu-icon"></i>
-        <nav class="navbar">
-            <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-    <!--hom4 section design-->
-    <section class="home" id="home">
-        <div class="home-content">
-            <h3>Hello, It's Me</h3>
-            <h1>Dhanusha Dhanalekshmi</h1>
-            <h3>And I'm a <span>Fullstack Developer</span></h3>
-            <P>As a self-taught Python and Django developer, 
-                I bring a unique blend of passion and hands-on experience to offer
-                 customized web development services. Having honed my skills through
-                  self-learning via YouTube, coding sites, and articles, I specialize in 
-                  crafting responsive and visually engaging websites using HTML, CSS, and JavaScript. 
-                  My journey includes a valuable internship at One Team Solutions in Cochin,
-                   where I delved into the intricacies of Python and Django. From designing intuitive
-                    user interfaces to optimizing website performance and implementing secure code,
-                     I am dedicated to delivering high-quality solutions
-                 shaped by both self-driven exploration and practical industry exposure.
-            </P>
-            <div class="social-media">
-                <a href="https://www.facebook.com/profile.php?id=100009207776862"><i class='bx bxl-facebook-circle'></i></a>
-                <a href="https://www.instagram.com/k__u_t_t_y?igsh=MWt3eXlrMTk1NGl0eQ=="><i class='bx bxl-instagram'></i></a>
-                <a href="http://www.linkedin.com/in/dhanusha23"><i class='bx bxl-linkedin-square'></i></a>
-                <a href="https://github.com/Dhanusha23"><i class='bx bxl-github'></i></a>
-            </div>
-            <a href="https://drive.google.com/file/d/1deAoIQIluK8q0hzZ7NVf0c_iy3Mzvi4u/view?usp=drivesdk" class="btn">Download CV</a>
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#" class="n-logo">Dhanusha D.</a>
+  <ul class="n-links">
+    <li><a href="#why">Why Me</a></li>
+    <li><a href="#vibe">Vibe Coding</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:dhanushakallunkal@gmail.com" class="n-cta">✦ Hire Me</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-l">
+    <div class="hero-chip"><div class="chip-pulse"></div>Open to work · Kerala, India</div>
+    <h1>
+      I build products that<br/>look good,
+      <span class="italic-name">ship fast,</span>
+      <span class="role-line">Python Django Dev · Digital Marketer · ⚡ Vibe Coder</span>
+    </h1>
+    <p class="hero-copy">
+      <strong>Self-driven developer</strong> combining backend engineering, UI-focused design, and digital marketing to build practical web experiences that actually get used.
+    </p>
+    <div class="hero-btns">
+      <a href="mailto:dhanushakallunkal@gmail.com" class="btn-grad">✉ Hire Me Now</a>
+      <a href="#projects" class="btn-glass">See Projects →</a>
+      <a href="Dhanusha_D_CV.pdf" download class="btn-glass">CV ↓</a>
+    </div>
+    <div class="hero-mini-stats">
+      <div class="mini-stat"><div class="mn">5+</div><div class="ml">Live projects</div></div>
+      <div class="mini-stat"><div class="mn">70%</div><div class="ml">Self-learned</div></div>
+      <div class="mini-stat"><div class="mn">AI</div><div class="ml">Powered workflow</div></div>
+      <div class="mini-stat"><div class="mn">2</div><div class="ml">Certifications</div></div>
+    </div>
+  </div>
+
+  <div class="hero-r">
+    <div class="photo-wrap">
+      <div class="fc fc2">
+        <div class="fc2-n">5+</div>
+        <div class="fc2-l">Live Projects</div>
+      </div>
+      <div class="photo-frame">
+        <img src="ChatGPT Image May 17, 2026, 08_37_06 PM.png" alt="Dhanusha D"/>
+        <!-- <div class="photo-ph">
+          <div class="photo-ph-av">👩‍💻</div>
+          <div class="photo-ph-t">Your photo here<br/>uncomment img tag above</div>
+          <div class="photo-ph-h">← replace placeholder</div>
         </div>
-
-        <div class="home-img">
-            <img src="images/IMG_2598.jpg" alt="">
+      </div>-->
+      <div class="fc fc1">
+        <div class="fc-icon">🐝</div>
+        <div><div class="fc-t">Bee — Live</div><div class="fc-s">shopwithbee.pythonanywhere.com</div></div>
+      </div>
+      <div class="fc fc3">
+        <div class="fc3-inner"><div class="fc3-dot"></div><div class="fc3-t">Available now</div></div>
+      </div>
+      <div class="hero-code">
+        <div class="hc-bar">
+          <div class="hc-d" style="background:#ff5f57"></div>
+          <div class="hc-d" style="background:#ffbd2e"></div>
+          <div class="hc-d" style="background:#28c840"></div>
         </div>
-    </section>
-
-    <!-- about section design -->
-    <section class="about" id="about">
-        <div class="about-img">
-            <img src="images/IMG-20220710-WA0013.jpg" alt="">
+        <div class="hc-body">
+          <span class="hk">const</span> dev = {<br/>
+          &nbsp;&nbsp;name: <span class="hs">"Dhanusha"</span>,<br/>
+          &nbsp;&nbsp;role: <span class="hs">"Django Dev"</span>,<br/>
+          &nbsp;&nbsp;vibe: <span class="hv">true</span>,<br/>
+          &nbsp;&nbsp;ships: <span class="hv">fast</span><br/>
+          }<span class="hc-blink"></span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="about-content">
-            <h2 class="heading">About <span>Me</span></h2>
-            <h3>Python Developer</h3>
-            <P>Hello, I'm Dhanusha, a recent graduate with a degree in Economics from Kerala University. 
-                My HSE specialization in computer commerce sparked my interest in coding. I'm a budding Python Web Developer,
-                 specializing in Django. Despite being a fresher, I bring skills in HTML, CSS, JavaScript, Python, and SQL.
-                  I aspire to excel in software development, merging creativity and technology. Outside coding, I find joy in fashion design, reading, and dancing.
-                   I'm eager to contribute to innovative projects
-                 and connect with like-minded individuals in the tech community. Let's create something amazing together!
-            </P>
-            <a href="#" class="btn">Read More</a>
-        </div>
-    </section>
+<!-- ══ MARQUEE ══ -->
+<div class="mq-wrap">
+  <div class="mq-track">
+    <div class="mq-item"><span class="mq-chip">Python</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Django</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">REST APIs</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">MySQL</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">⚡ Vibe Coding</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Meta Ads</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Google Ads</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">SEO</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Cloudinary</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Git & GitHub</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Bootstrap</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">JavaScript</span><div class="mq-sep"></div></div>
+    <!-- duplicate -->
+    <div class="mq-item"><span class="mq-chip">Python</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Django</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">REST APIs</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">MySQL</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">⚡ Vibe Coding</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Meta Ads</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Google Ads</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">SEO</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Cloudinary</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Git & GitHub</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">Bootstrap</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-chip">JavaScript</span><div class="mq-sep"></div></div>
+  </div>
+</div>
 
+<!-- ══ WHY HIRE ME ══ -->
+<section id="why" class="rv">
+  <div class="s-label">Why recruiters remember me</div>
+  <div class="s-title">Not just a dev.<br/><em>A complete builder.</em></div>
+  <div class="why-grid">
+    <div class="why-card rv d1">
+      <div class="why-star">🚀</div>
+      <p>Mostly self-learned developer with 5+ practical live projects — not just tutorials, real deployed products.</p>
+    </div>
+    <div class="why-card rv d2">
+      <div class="why-star">🎯</div>
+      <p>Blends Django development with certified digital marketing — I build products <em>and</em> grow them.</p>
+    </div>
+    <div class="why-card rv d3">
+      <div class="why-star">⚡</div>
+      <p>Vibe coder — uses AI tools to prototype and ship fast. Ideas become live products in days, not months.</p>
+    </div>
+    <div class="why-card rv d4">
+      <div class="why-star">🌐</div>
+      <p>Builds responsive, mobile-first, user-focused interfaces with clean backend logic and real-world features.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- sevices section design -->
-    <section class="services" id="services">
-        <h2 class="heading">My <span>Services</span></h2>
+<!-- ══ VIBE CODING ══ -->
+<section id="vibe" class="rv">
+  <div class="s-label">My superpower</div>
+  <div class="vibe-wrap">
+    <div class="vg1 vibe-glow"></div>
+    <div class="vg2 vibe-glow"></div>
+    <div>
+      <div class="vibe-tag"><span class="vibe-tag-icon">⚡</span>Vibe Coding</div>
+      <div class="vibe-h">I don't just code.<br/>I <span>vibe code.</span></div>
+      <p class="vibe-p">Vibe coding is how I turn a raw idea into a working product — fast. I collaborate with AI like Claude, ChatGPT, and Gemini to scaffold, build, and ship while others are still planning. It's not about replacing skill — it's about multiplying it.</p>
+      <p class="vibe-p">My <strong>Bee affiliate site</strong>? Vibe coded and live in days. My <strong>AI Chat App</strong>? Same energy. I describe what I want, iterate fast, and ship real things real people use.</p>
+      <div class="vibe-pills">
+        <span class="vpill vp1">Claude AI</span>
+        <span class="vpill vp2">ChatGPT</span>
+        <span class="vpill vp3">Gemini</span>
+        <span class="vpill vp4">Ship fast</span>
+        <span class="vpill vp1">Idea → Product</span>
+        <span class="vpill vp2">AI-assisted dev</span>
+        <span class="vpill vp3">Days not months</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="td td1"></div><div class="td td2"></div><div class="td td3"></div>
+        <div class="term-title">dhanusha@vibe ~ zsh</div>
+      </div>
+      <div class="term-body">
+        <div class="tl"><span class="tp">dhanusha</span><span style="color:rgba(255,255,255,0.25)"> ~ </span><span class="tc">idea "affiliate site"</span></div>
+        <span class="to">✓ Concept locked in</span>
+        <div class="tl" style="margin-top:4px"><span class="tp">dhanusha</span><span style="color:rgba(255,255,255,0.25)"> ~ </span><span class="tc">vibe build --ai claude</span></div>
+        <span class="to2">⚡ Django scaffolded</span>
+        <span class="to2">⚡ Models & views — done</span>
+        <span class="to2">⚡ Cloudinary hooked up</span>
+        <div class="tl" style="margin-top:4px"><span class="tp">dhanusha</span><span style="color:rgba(255,255,255,0.25)"> ~ </span><span class="tc">deploy pythonanywhere</span></div>
+        <span class="to3">🚀 shopwithbee is LIVE 🐝</span>
+        <span class="tcmt"># Time taken: days, not months</span>
+        <div class="tl" style="margin-top:4px"><span class="tp">dhanusha</span><span style="color:rgba(255,255,255,0.25)"> ~ </span><span class="tcur"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="services-container">
-            <div class="services-box">
-                <i class='bx bx-code-alt'></i>
-                <h3>Web Development</h3>
-                <p>As a passionate Python and Django developer, I create web solutions that combine creativity and functionality.
-                     I build responsive websites using HTML, CSS, and JavaScript and develop dynamic web applications with Python and Django.
-                      With experience in SQL database management, I focus on building efficient, secure, and user-friendly applications
-                       while ensuring strong performance and clean code.</p>
-                <a href="#" class="btn">Read More</a>
-                       
-            </div>
+<!-- ══ SKILLS ══ -->
+<section id="skills" class="skills-bg rv">
+  <div class="s-label">What I know</div>
+  <div class="s-title">Skills & <em>tools</em></div>
+  <div class="skills-mosaic">
+    <div class="sk-tile"><div class="sk-icon">🐍</div><div class="sk-name">Backend</div><div class="sk-tags"><span class="sktag">Python</span><span class="sktag">Django</span><span class="sktag">REST API</span><span class="sktag">OOP</span><span class="sktag">CRUD</span><span class="sktag">Auth</span></div></div>
+    <div class="sk-tile"><div class="sk-icon">🎨</div><div class="sk-name">Frontend</div><div class="sk-tags"><span class="sktag">HTML</span><span class="sktag">CSS</span><span class="sktag">JavaScript</span><span class="sktag">Bootstrap</span><span class="sktag">Responsive</span></div></div>
+    <div class="sk-tile"><div class="sk-icon">🗄️</div><div class="sk-name">Database</div><div class="sk-tags"><span class="sktag">MySQL</span><span class="sktag">SQLite</span><span class="sktag">ORM</span><span class="sktag">DB Design</span></div></div>
+    <div class="sk-tile"><div class="sk-icon">☁️</div><div class="sk-name">Cloud & Deploy</div><div class="sk-tags"><span class="sktag">Git</span><span class="sktag">GitHub</span><span class="sktag">Cloudinary</span><span class="sktag">PythonAnywhere</span></div></div>
+    <div class="sk-tile"><div class="sk-icon">📣</div><div class="sk-name">Marketing</div><div class="sk-tags"><span class="sktag">Meta Ads</span><span class="sktag">Google Ads</span><span class="sktag">SEO</span><span class="sktag">SMM</span><span class="sktag">WordPress</span></div></div>
+    <div class="sk-tile"><div class="sk-icon">🤖</div><div class="sk-name">AI & Vibe Tools</div><div class="sk-tags"><span class="sktag">Claude</span><span class="sktag">ChatGPT</span><span class="sktag">Gemini</span><span class="sktag">Grok</span><span class="sktag">Grammarly</span></div></div>
+  </div>
+</section>
 
-            <div class="services-box">
-                <i class="bx bx-chart-trend"></i>
-                <h3>Digital Marketing</h3>
-                <p>I specialize in creating integrated digital marketing strategies that align brand positioning with performance outcomes. 
-                    By combining organic content development, paid media execution, and data-driven optimization, 
-                    I help businesses increase reach, generate qualified leads, and build sustainable online growth. 
-                    My focus is always on strategy first — execution second.</p>
-                <a href="#" class="btn">Read More</a>
-                       
-            </div>
+<!-- ══ PROJECTS ══ -->
+<section id="projects" class="rv">
+  <div class="s-label">What I've built</div>
+  <div class="s-title">Projects that <em>actually ship</em></div>
+  <div class="proj-list">
 
-        </div>
+    <div class="proj-card rv">
+      <div class="proj-thumb"><div class="pph"><div class="pph-s"><img src="Screenshot 2026-05-10 102810.png" alt="Project Screenshot" /></div></div></div>
+      <div>
+        <div class="proj-num">01 / 05</div>
+        <div class="proj-name">Bee — Affiliate Product Reviews</div>
+        <div class="proj-desc">Mobile-first affiliate marketing platform. Each product has two buttons — buy on Amazon or watch YouTube review. Vibe coded & live in days. Images via Cloudinary CDN.</div>
+        <div class="proj-tags"><span class="ptag">Django</span><span class="ptag">Python</span><span class="ptag">MySQL</span><span class="ptag">Cloudinary</span><span class="ptag">JavaScript</span><span class="ptag ptag-v">⚡ Vibe Coded</span></div>
+      </div>
+      <div class="proj-acts">
+        <div class="live-pill">Live</div>
+        <a href="https://shopwithbee.pythonanywhere.com/" target="_blank" class="plink">Visit →</a>
+        <a href="https://github.com/Dhanusha23" target="_blank" class="plink">GitHub →</a>
+      </div>
+    </div>
 
-    </section>
+    <div class="proj-card rv">
+      <div class="proj-thumb"><div class="pph"><div class="pph-s"><img src="images/Screenshot (569).png" alt="Project Screenshot" /></div></div></div>
+      <div>
+        <div class="proj-num">02 / 05</div>
+        <div class="proj-name">E-Commerce Shopping Website</div>
+        <div class="proj-desc">Full-stack responsive e-commerce platform — product catalog, user authentication, shopping cart, order management. MySQL-powered with clean UI.</div>
+        <div class="proj-tags"><span class="ptag">Django</span><span class="ptag">Python</span><span class="ptag">MySQL</span><span class="ptag">JavaScript</span><span class="ptag">Bootstrap</span><span class="ptag">Auth</span></div>
+      </div>
+      <div class="proj-acts">
+        <a href="https://github.com/Dhanusha23" target="_blank" class="plink">GitHub →</a>
+      </div>
+    </div>
 
-    <!-- portfolio section design -->
-    <section class="portfolio" id="portfolio">
-        <h2 class="heading">My<span> Projects</span></h2>
+    <div class="proj-card rv">
+      <div class="proj-thumb"><div class="pph"><div class="pph-s"><img src="Screenshot 2026-04-13 110631.png" alt="Project Screenshot" /></div></div></div>
+      <div>
+        <div class="proj-num">03 / 05</div>
+        <div class="proj-name">AI Chat Web Application</div>
+        <div class="proj-desc">Real-time AI-powered chat with intelligent, context-aware responses. Django backend handles sessions, message history, and REST API integration with AI models.</div>
+        <div class="proj-tags"><span class="ptag">Django</span><span class="ptag">Python</span><span class="ptag">AI API</span><span class="ptag">MySQL</span><span class="ptag">REST API</span><span class="ptag">JavaScript</span></div>
+      </div>
+      <div class="proj-acts">
+        <a href="https://github.com/Dhanusha23" target="_blank" class="plink">GitHub →</a>
+      </div>
+    </div>
 
-        <div class="portfolio-container">
-            <div class="portfolio-box">
-                <img src="images/Screenshot (569).png" alt="">
-                <div class="portfolio-layer">
-                    <h4>Shopping Website</h4>
-                        <p>Introducing my debut project – a dynamic shopping website designed
-                             to provide a seamless and enjoyable online shopping experience. 
-                             Utilizing a tech stack encompassing Python, Django, HTML, CSS, and JavaScript,
-                              this endeavor marks my initial foray into the realm of web development.
-                               The platform allows users to explore a curated selection of items,
-                                effortlessly adding them to their carts for a convenient and secure checkout process.
-                                 From conceptualizing the user interface to implementing the functionalities, this project
-                                  showcases my commitment to combining creativity and technical expertise. I am excited to 
-                                  share this milestone and look forward to evolving as a developer with future endeavors.
+    <div class="proj-card rv">
+      <div class="proj-thumb"><div class="pph"><div class="pph-s"><img src="Screenshot_19-5-2026_114831_127.0.0.1.jpeg" alt="Project Screenshot" /></div></div></div>
+      <div>
+        <div class="proj-num">04 / 05</div>
+        <div class="proj-name">Digital Marketing Business Website</div>
+        <div class="proj-desc">Full company website showcasing services & about. Dynamic CMS-style backend — update projects, Google reviews, and team members from Django admin without touching code.</div>
+        <div class="proj-tags"><span class="ptag">Django</span><span class="ptag">Python</span><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span><span class="ptag ptag-v">CMS Backend</span></div>
+      </div>
+      <div class="proj-acts">
+        <a href="https://github.com/Dhanusha23" target="_blank" class="plink">GitHub →</a>
+      </div>
+    </div>
 
+    <div class="proj-card rv">
+      <div class="proj-thumb"><div class="pph"><div class="pph-s"><img src="images/Screenshot 2026-03-11 113647.png" alt="Project Screenshot" /></div></div></div>
+      <div>
+        <div class="proj-num">05 / 05</div>
+        <div class="proj-name">Personal Expense Tracker</div>
+        <div class="proj-desc">Django expense management with secure login, full CRUD, category filtering, and dynamic visual spending reports using Matplotlib charts.</div>
+        <div class="proj-tags"><span class="ptag">Django</span><span class="ptag">Python</span><span class="ptag">Matplotlib</span><span class="ptag">SQLite</span><span class="ptag">CRUD</span></div>
+      </div>
+      <div class="proj-acts">
+        <a href="https://github.com/Dhanusha23" target="_blank" class="plink">GitHub →</a>
+      </div>
+    </div>
 
+  </div>
+</section>
 
+<!-- ══ EXPERIENCE ══ -->
+<section id="experience" class="rv">
+  <div class="s-label">Where I've worked</div>
+  <div class="s-title">Work <em>experience</em></div>
+  <div class="exp-grid">
+    <div class="exp-card rv-l">
+      <div class="exp-glow eg1"></div>
+      <div class="exp-period">Feb 2026 – Present</div>
+      <div class="exp-title">Web Developer / Digital Marketer</div>
+      <div class="exp-co">IPM Digitals — India</div>
+      <ul class="exp-pts">
+        <li>Building dynamic web apps with Python & Django</li>
+        <li>REST API development & MySQL database integration</li>
+        <li>Running Meta Ads & Google Ads for clients</li>
+        <li>SEO optimization & social media management</li>
+        <li>Delivering responsive, mobile-friendly interfaces</li>
+      </ul>
+    </div>
+    <div class="exp-card rv-r">
+      <div class="exp-glow eg2"></div>
+      <div class="exp-period">Aug 2025 – Jan 2026</div>
+      <div class="exp-title">Junior Executive / Coordinator</div>
+      <div class="exp-co">Axis Bank — India</div>
+      <ul class="exp-pts">
+        <li>Managed daily banking operations & customer queries</li>
+        <li>Accurate data entry & documentation</li>
+        <li>Supported team in hitting monthly targets</li>
+        <li>Maintained high customer satisfaction</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                        </p>
-                        <a href=""><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-            <div class="portfolio-box">
-                <img src="images/Screenshot 2026-03-11 113647.png" alt="">
-                <div class="portfolio-layer">
-                    <h4>Expense Tracker</h4>
-                        <p>Introducing my Expense Tracker web application,
-                             developed using Python and Django to help users manage and monitor their personal finances effectively.
-                              The platform enables users to add, edit, and categorize expenses through a clean interface built with HTML and CSS,
-                               while Matplotlib provides visual insights into spending patterns. 
-                               This project demonstrates my skills in backend development, data management, and interactive data visualization.
-                        
-                        </p>
-                        <a href=""><i class='bx bx-link-external'></i></a>
-                </div>
+<!-- ══ CERTIFICATIONS ══ -->
+<section class="rv">
+  <div class="s-label">Education & credentials</div>
+  <div class="s-title">Certified & <em>qualified</em></div>
+  <div class="cert-grid">
+    <div class="cert-card rv d1"><div class="cert-ic">🎓</div><h3>B.A. Economics</h3><p>University of Kerala · 2020</p></div>
+    <div class="cert-card rv d2"><div class="cert-ic">🏆</div><h3>Certified Python Django Developer</h3><p>OneTeam Solutions · 2023</p></div>
+    <div class="cert-card rv d3"><div class="cert-ic">📊</div><h3>Certified Digital Marketer</h3><p>Edustack Academy · 2025</p></div>
+  </div>
+</section>
 
-            </div>
-            <div class="portfolio-box">
-                <img src="images/Screenshot 2026-02-18 180704.png" alt="">
-                <div class="portfolio-layer">
-                    <h4>Wordpress Website</h4>
-                        <p> Introducing my personal portfolio website, built using WordPress to showcase my skills in
-                             web development and digital marketing. This project highlights my ability to design responsive and 
-                             user-friendly websites, customize themes, and optimize content structure. With a focus on performance,
-                              SEO, and clean layout, the platform reflects my approach to creating professional and engaging web experiences.
-                        </p>
-                        <a href="https://dhanusha.live/"><i class='bx bx-link-external'></i></a>
-                </div>
+<!-- ══ CONTACT ══ -->
+<section id="contact" class="rv">
+  <div class="contact-wrap">
+    <div class="ctg1"></div><div class="ctg2"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="ct-big">Let's build<br/>something <em>great.</em></div>
+      <p class="ct-sub">I'm actively looking for opportunities — full-time roles, freelance projects, or interesting collabs. I respond fast and I'm ready to start immediately.</p>
+      <a href="mailto:dhanushakallunkal@gmail.com" class="ct-cta">✉ Send me an email</a>
+    </div>
+    <div class="ct-links" style="position:relative;z-index:1;">
+      <a href="mailto:dhanushakallunkal@gmail.com" class="ctlink"><div class="ctl-l"><div class="ctl-icon">✉️</div><div><div class="ctl-name">Email</div><div class="ctl-val">dhanushakallunkal@gmail.com</div></div></div><div class="ctl-arr">↗</div></a>
+      <a href="https://linkedin.com/in/dhanusha23" target="_blank" class="ctlink"><div class="ctl-l"><div class="ctl-icon">💼</div><div><div class="ctl-name">LinkedIn</div><div class="ctl-val">linkedin.com/in/dhanusha23</div></div></div><div class="ctl-arr">↗</div></a>
+      <a href="https://github.com/Dhanusha23" target="_blank" class="ctlink"><div class="ctl-l"><div class="ctl-icon">🐙</div><div><div class="ctl-name">GitHub</div><div class="ctl-val">github.com/Dhanusha23</div></div></div><div class="ctl-arr">↗</div></a>
+      <a href="tel:+919995318400" class="ctlink"><div class="ctl-l"><div class="ctl-icon">📱</div><div><div class="ctl-name">Phone</div><div class="ctl-val">+91 9995318400</div></div></div><div class="ctl-arr">↗</div></a>
+      <a href="https://shopwithbee.pythonanywhere.com/" target="_blank" class="ctlink"><div class="ctl-l"><div class="ctl-icon">🐝</div><div><div class="ctl-name">Bee — Live Project</div><div class="ctl-val">shopwithbee.pythonanywhere.com</div></div></div><div class="ctl-arr">↗</div></a>
+    </div>
+  </div>
+</section>
 
-            </div>
-        </div>
-   <!--
-            <div class="portfolio-box">
-                <img src="images/IMG_2550.JPG" alt="">
-                <div class="portfolio-layer">
-                    <h4>Shopping Website</h4>
-                        <p>My background encompasses proficiency in various 
-                               more obscure Latin words, consectetu</p>
-                        <a href="#"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>-->
+<footer>
+  <span class="f-logo">Dhanusha D.</span>
+  <span>© 2026 · Built with Python, Django & ⚡ Vibe Energy · Kerala 🌴</span>
+  <span style="color:var(--g1);font-weight:600;">Open to work</span>
+</footer>
 
+<script>
+// ── Cursor
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function raf(){
+  rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;
+  curR.style.left=rx+'px';curR.style.top=ry+'px';
+  requestAnimationFrame(raf);
+})();
+document.querySelectorAll('a,button,.why-card,.proj-card,.exp-card,.cert-card,.sk-tile,.stat-glass,.mq-chip').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cur.style.width='18px';cur.style.height='18px';cur.style.background='var(--g2)';
+    curR.style.width='52px';curR.style.height='52px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cur.style.width='10px';cur.style.height='10px';cur.style.background='var(--g1)';
+    curR.style.width='34px';curR.style.height='34px';
+  });
+});
 
-        </div>
-    </section>
+// ── Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:0.07});
+document.querySelectorAll('.rv,.rv-r,.rv-l').forEach(el=>obs.observe(el));
 
-    <!-- contact section design -->
-    <section class="contact" id="contact">
-        <h2 class="heading">Contact<span>Me!</span></h2>
-
-        <form id="contactform" action="#">
-            <div class="input-box">
-                <input type="text" name="fullName" placeholder="Full Name" required>
-                <input type="email" name="email" placeholder="Email Address" required>
-            </div>
-
-            <div class="input-box">
-                <input type="tel" name="mobileNumber" placeholder="Mobile Number">
-                <input type="text" name="emailSubject" placeholder="Email Subject">
-            </div>
-
-            <textarea name="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
-
-            <input type="submit" value="Send Message" class="btn">
-        </form>
-    </section>
-
-
-    <!--footer design-->
-    <footer class="footer">
-        <div class="footer-text">
-            <p> Copyright &copy; 2024 by Dhanusha Dhanalekshmi | All Rights Reserved.</p>
-
-        </div>
-        <div class="footer-iconTop">
-            <a href="#home"><i class='bx bx-chevrons-up'></i></a>
-
-        </div>
-    </footer>
-
-
-    <!-- scroll reveal-->
-    <script src="https://unpkg.com/scrollreveal"></script>
-
-    <!-- typed js-->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.2.12"></script>
-    <!--<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script> -->
-
-    <!-- custom js-->
-    <script src="js/script.js"></script>
+// ── Subtle parallax on orbs
+document.addEventListener('mousemove',e=>{
+  const px=(e.clientX/window.innerWidth-.5)*18;
+  const py=(e.clientY/window.innerHeight-.5)*18;
+  document.querySelectorAll('.orb').forEach((o,i)=>{
+    const f=(i+1)*0.4;
+    o.style.transform=`translate(${px*f}px,${py*f}px) scale(1)`;
+  });
+});
+</script>
 </body>
 </html>
